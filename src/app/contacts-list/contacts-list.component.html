@@ -1,0 +1,106 @@
+<div class="ui fluid container">
+    <div class="ui menu top inverted">
+        <div class="header item"><img src="/assets/favicons/ct-w.svg" /></div>
+        <a class="item" href="/">Dashboard</a>
+        <a class="active item" href="/contacts">Contacts</a>
+        <div class="ui right labeled icon menu inverted">
+            <a class="item" *ngIf="!isLoggedIn" (click)="authSvc.login()"><i class="sign in white icon"></i>Log In</a>
+            <a class="item" *ngIf="isLoggedIn" (click)="authSvc.login()"><i class="sign in white icon"></i>Log Out</a>
+        </div>
+    </div>
+</div>
+<div class="ui container">
+    <h1 class="ui header">This is the header!</h1>
+    <table class="ui celled striped table">
+        <thead>
+            <tr>
+                <th colspan="4">
+                    <h3 class="ui header">Available Contacts</h3>
+                </th>
+            </tr>
+            <tr>
+                <th> First Name</th>
+                <th>Surname</th>
+                <th>Phone Number</th>
+                <th>Email Address</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="!contacts">
+            <tr>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui placeholder">
+                        <div class="line"></div>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+        <tbody *ngFor="let ctt of contacts">
+            <tr>
+                <td>ctt.first_name</td>
+                <td>ctt.surname</td>
+                <td>ctt.phone_number</td>
+                <td>ctt.email_address</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

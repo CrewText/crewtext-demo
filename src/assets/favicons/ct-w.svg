@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="260.000000pt"
+   height="260.000000pt"
+   viewBox="0 0 260.000000 260.000000"
+   preserveAspectRatio="xMidYMid meet"
+   id="svg3745"
+   sodipodi:docname="ct-w.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <title
+     id="title3751">CrewText</title>
+  <defs
+     id="defs3749" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     id="namedview3747"
+     showgrid="false"
+     inkscape:zoom="0.68076923"
+     inkscape:cx="-46.271186"
+     inkscape:cy="173.33333"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3745" />
+  <metadata
+     id="metadata3739">
+Created by potrace 1.11, written by Peter Selinger 2001-2013
+<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title>CrewText</dc:title>
+  </cc:Work>
+</rdf:RDF>
+</metadata>
+  <g
+     transform="translate(0.000000,260.000000) scale(0.100000,-0.100000)"
+     fill="#000000"
+     stroke="none"
+     id="g3743">
+    <path
+       d="m 1244,2580 c -12,-4 -106,-57 -210,-117 C 277,2026 207,1984 186,1955 165,1925 165,1920 162,1313 159,637 158,655 221,608 240,594 476,455 745,299 1219,25 1237,16 1295,12 l 60,-3 400,231 c 220,128 447,259 505,293 58,33 116,70 128,81 53,47 52,29 52,686 0,692 5,648 -83,704 -58,37 -933,544 -984,570 -34,17 -94,20 -129,6 z m -135,-831 c 76,-17 154,-62 220,-126 73,-71 73,-68 -14,-128 l -53,-37 -37,41 c -118,130 -327,128 -444,-5 -109,-124 -90,-321 41,-425 61,-48 107,-63 188,-63 84,0 155,31 211,91 l 41,45 54,-37 c 83,-58 83,-55 16,-124 -139,-142 -345,-178 -525,-93 -325,154 -351,607 -46,803 96,61 234,85 348,58 z m 961,-99 v -80 h -105 -105 l -2,-357 -3,-358 -82,-3 -83,-3 v 360 360 l -107,3 -108,3 -3,78 -3,77 h 301 300 z"
+       id="path3741"
+       style="fill:#f9f9f9"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
