@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public async login() {
+  public login() {
     this.authNonce = this.generateAuthNonce()
 
     let auth_url = "https://voluble-dev.eu.auth0.com/authorize"
@@ -19,8 +19,14 @@ export class AuthService {
     let resp_type = "id_token token"
     let url = encodeURI(`${auth_url}?response_type=${resp_type}&redirect_uri=${redirect_uri}&client_id=${client_id}&audience=${aud}&scope=profile email&nonce=${this.authNonce}`)
     window.location.assign(url)
-
   }
+
+  public logout() {
+    this.access_token = ''
+    this.id_token = ''
+    this.jwt = ''
+  }
+
   public get isLoggedIn() {
     // return this.auth0.isAuthenticated()
     return !!this.id_token
@@ -46,35 +52,33 @@ export class AuthService {
     return Math.random().toString(32).substr(2, 15) + Math.random().toString(32).substr(2, 15)
   }
 
-  public set access_token(access_token: string) {
-    localStorage.setItem('access_token', access_token)
+  public set access_token(access_token: any) {
+    localStorage.setItem('access_token', JSON.stringify(access_token))
+  }
+
+  public set jwt(jwt: any) {
+    localStorage.setItem('jwt', jwt)
+  }
+
+  public get jwt() {
+    return localStorage.getItem('jwt')
   }
 
   public get access_token() {
-    return Date.now() > this.access_expire_time * 1000 ? localStorage.getItem('access_token') : null
+    let tok = localStorage.getItem('access_token')
+    if (!tok) { localStorage.removeItem('access_token'); return null }
+    let parsed_tok = JSON.parse(tok)
+    return Date.now() <= parsed_tok.exp * 1000 ? parsed_tok : null
   }
 
-  public set id_token(id_token: string) {
-    localStorage.setItem('id_token', id_token)
+  public set id_token(id_token: any) {
+    localStorage.setItem('id_token', JSON.stringify(id_token))
   }
 
   public get id_token() {
-    return Date.now() > this.id_expire_time * 1000 ? localStorage.getItem('id_token') : null
-  }
-
-  public get access_expire_time(): number {
-    return parseInt(localStorage.getItem('accessExpireTime'), 10)
-  }
-
-  public set access_expire_time(expire_time) {
-    localStorage.setItem('accessExpireTime', expire_time.toString())
-  }
-
-  public get id_expire_time(): number {
-    return parseInt(localStorage.getItem('id_ExpireTime'), 10)
-  }
-
-  public set id_expire_time(expire_time) {
-    localStorage.setItem('id_ExpireTime', expire_time.toString())
+    let tok = localStorage.getItem('id_token')
+    if (!tok) { localStorage.removeItem('id_token'); return null }
+    let parsed_tok = JSON.parse(tok)
+    return Date.now() <= parsed_tok.exp * 1000 ? parsed_tok : null
   }
 }

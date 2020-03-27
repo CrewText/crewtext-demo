@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot } from '@angular/router';
 import { AuthService } from '../auth.service';
-import jsonwebtoken from 'jsonwebtoken'
-import { JWT } from 'jose'
+import { Base64 } from 'js-base64'
 
 @Component({
   selector: 'app-auth-redirect',
@@ -16,16 +15,15 @@ export class AuthRedirectComponent implements OnInit {
   ngOnInit() {
     for (let item of location.hash.split('&')) {
       item = item.replace('#', '')
-      let [key, val] = item.split('=', 1)
+      let [key, val] = item.split('=')
       console.log(key)
-
-
-      if (key == "access_token") { this.authSvc.access_token = val }
-      else if (key == "id_token") { this.authSvc.id_token = val }
-      else if (key == "expires_in") {
-        console.log(`expire time: ${JWT.decode(val)}`)
-        // this.authSvc.id_expire_time =
+      if (key == "access_token") {
+        this.authSvc.access_token = JSON.parse(Base64.decode(val.split('.')[1]))
+        this.authSvc.jwt = val
       }
+      else if (key == "id_token") { this.authSvc.id_token = JSON.parse(Base64.decode(val.split('.')[1])) }
+
+      this.router.navigateByUrl('/contacts')
     }
   }
 

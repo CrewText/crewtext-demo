@@ -8,19 +8,23 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./contacts-list.component.css']
 })
 export class ContactsListComponent implements OnInit {
-  isLoggedIn: boolean
+  isLoggedIn = this.authSvc.isLoggedIn
   contacts: any[]
-  constructor(private volubleSvc: VolubleService, private authSvc: AuthService) { }
+  constructor(private volubleSvc: VolubleService, public authSvc: AuthService) { }
 
   async ngOnInit() {
+    console.log(this.authSvc.isLoggedIn)
     this.authSvc.userOrg = "E9D6F7BD-978B-47ED-BBC9-368C958C280F"
-    if (this.isLoggedIn) {
-      this.volubleSvc.getContacts(this.authSvc.userOrg, this.authSvc.access_token)
+    if (this.authSvc.isLoggedIn) {
+      this.volubleSvc.getContacts(this.authSvc.userOrg, this.authSvc.jwt)
         .subscribe(val => {
           this.contacts = Array.isArray(val.data) ? val.data : [val.data]
           return
         })
     }
+  }
+
+  deleteContact(contact_id: string) {
   }
 
 }
