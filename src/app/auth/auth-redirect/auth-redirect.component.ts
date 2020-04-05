@@ -39,7 +39,7 @@ export class AuthRedirectComponent implements OnInit {
       .catch(e => {
         console.log(e)
       })
-      .finally(() => { return this.router.navigateByUrl('/') })
+      .finally(() => { return this.router.navigateByUrl('/dashboard') })
   }
 
 }
