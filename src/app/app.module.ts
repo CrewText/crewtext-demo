@@ -3,18 +3,24 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ContactsListComponent } from './contacts-list/contacts-list.component';
-import { AuthRedirectComponent } from './auth-redirect/auth-redirect.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NavComponent } from './nav/nav.component';
+import { AuthRoutingModule } from './auth/auth-routing.module';
+import { ContactsRoutingModule } from './contacts/contacts-routing.module';
+import { MessagesRoutingModule } from './messages/messages-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContactsListComponent,
-    AuthRedirectComponent
+    DashboardComponent,
+    NavComponent,
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
+    AuthRoutingModule,
+    ContactsRoutingModule,
+    MessagesRoutingModule,
     AppRoutingModule
   ],
   providers: [],

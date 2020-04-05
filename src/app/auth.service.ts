@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class AuthService {
   public login() {
     this.authNonce = this.generateAuthNonce()
 
-    let auth_url = "https://voluble-dev.eu.auth0.com/authorize"
+    let auth_url = `https://voluble-dev.eu.auth0.com/authorize`
     let aud = "https://voluble-poc.herokuapp.com"
-    let client_id = "COMAy4nBatqEuGzdTHEzOOc2ucpRywcs"
-    let redirect_uri = "http://lvh.me:4200/auth/callback"
+    let client_id = environment.auth0_client_id
+    let redirect_uri = environment.auth_callback_url
     let resp_type = "id_token token"
-    let url = encodeURI(`${auth_url}?response_type=${resp_type}&redirect_uri=${redirect_uri}&client_id=${client_id}&audience=${aud}&scope=profile email&nonce=${this.authNonce}`)
+    let url = encodeURI(`${auth_url}?response_type=${resp_type}&redirect_uri=${redirect_uri}&client_id=${client_id}&audience=${aud}&scope=profile email openid&nonce=${this.authNonce}`)
     window.location.assign(url)
   }
 
@@ -25,6 +26,9 @@ export class AuthService {
     this.access_token = ''
     this.id_token = ''
     this.jwt = ''
+    this.userOrg = ''
+    this.authNonce = ''
+    window.location.assign('/')
   }
 
   public get isLoggedIn() {
@@ -33,19 +37,21 @@ export class AuthService {
   }
 
   public get userOrg(): string {
-    return localStorage.getItem('organization')
+    return sessionStorage.getItem('organization')
   }
 
   public set userOrg(org: string) {
-    localStorage.setItem('organization', org)
+    if (!org) { sessionStorage.removeItem('organization') }
+    else { sessionStorage.setItem('organization', org) }
   }
 
   private set authNonce(nonce: string) {
-    localStorage.setItem('authNonce', nonce)
+    if (!nonce) { sessionStorage.removeItem('authNonce') }
+    else { sessionStorage.setItem('authNonce', nonce) }
   }
 
   private get authNonce() {
-    return localStorage.getItem('authNonce')
+    return sessionStorage.getItem('authNonce')
   }
 
   public generateAuthNonce() {
@@ -53,32 +59,51 @@ export class AuthService {
   }
 
   public set access_token(access_token: any) {
-    localStorage.setItem('access_token', JSON.stringify(access_token))
+    if (!access_token) { sessionStorage.removeItem('access_token') }
+    else { sessionStorage.setItem('access_token', JSON.stringify(access_token)) }
+  }
+  public get access_token() {
+    let tok = sessionStorage.getItem('access_token')
+    if (!tok) { sessionStorage.removeItem('access_token'); return null }
+    let parsed_tok = JSON.parse(tok)
+    return Date.now() <= parsed_tok.exp * 1000 ? parsed_tok : null
   }
 
   public set jwt(jwt: any) {
-    localStorage.setItem('jwt', jwt)
+    if (!jwt) { sessionStorage.removeItem('jwt') }
+    else { sessionStorage.setItem('jwt', jwt) }
   }
 
   public get jwt() {
-    return localStorage.getItem('jwt')
-  }
-
-  public get access_token() {
-    let tok = localStorage.getItem('access_token')
-    if (!tok) { localStorage.removeItem('access_token'); return null }
-    let parsed_tok = JSON.parse(tok)
-    return Date.now() <= parsed_tok.exp * 1000 ? parsed_tok : null
+    return sessionStorage.getItem('jwt')
   }
 
   public set id_token(id_token: any) {
-    localStorage.setItem('id_token', JSON.stringify(id_token))
+    if (!id_token) { sessionStorage.removeItem('id_token') }
+    else { sessionStorage.setItem('id_token', JSON.stringify(id_token)) }
   }
 
   public get id_token() {
-    let tok = localStorage.getItem('id_token')
-    if (!tok) { localStorage.removeItem('id_token'); return null }
+    let tok = sessionStorage.getItem('id_token')
+    if (!tok) { sessionStorage.removeItem('id_token'); return null }
     let parsed_tok = JSON.parse(tok)
     return Date.now() <= parsed_tok.exp * 1000 ? parsed_tok : null
   }
+
+  public hasScope(scopes: string[]) {
+    for (const scope of scopes) {
+      if (this.access_token.permissions.includes(scope)) { return true }
+    }
+
+    return false
+  }
+
+  // public set onLoginRedirectUrl(url: string) {
+  //   if (!url) { url = "/" }
+  //   sessionStorage.setItem('on_login_redirect', url)
+  // }
+
+  // public get onLoginRedirectUrl() {
+  //   return sessionStorage.getItem('on_login_redirect')
+  // }
 }

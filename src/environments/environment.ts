@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  auth_callback_url: "http://lvh.me:4200/auth/callback",
+  auth0_client_id: "COMAy4nBatqEuGzdTHEzOOc2ucpRywcs",
+  auth0_proxy_base: "http://localhost:5000",
+  voluble: {
+    api_base: "http://localhost:5000/v1",
+  }
 };
 
 /*

@@ -1,0 +1,129 @@
+<div class="ui container">
+    <div class="ui vertical very padded segment">
+        <h1 class="ui header">Contacts</h1>
+    </div>
+    <div class="ui vertical padded segment">
+        <button *ngIf="canAddContact" routerLink="/contacts/create" class="ui primary labeled icon button">
+            <i class="plus icon"></i>
+            New Contact
+        </button>
+
+        <div *ngIf="errText" id="msg_negative" class="ui negative message">
+            <p>{{errText}}</p>
+        </div>
+
+        <table *ngIf="canViewContact" class="ui celled striped table">
+            <thead>
+                <tr>
+                    <th *ngIf="canDeleteContact" colspan=5>
+                        <h3 class="ui header">Available Contacts</h3>
+                    </th>
+                    <th *ngIf="!canDeleteContact" colspan=4>
+                        <h3 class="ui header">Available Contacts</h3>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Phone Number</th>
+                    <th>Email Address</th>
+                    <th *ngIf="canDeleteContact"></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!contacts">
+                <tr>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tbody *ngFor="let ctt of contacts">
+                <tr>
+                    <td>{{ctt.attributes.first_name}} {{ctt.attributes.surname}}</td>
+                    <td>{{ctt.relationships.category.data.attributes.name}}</td>
+                    <td>{{ctt.attributes.phone_number}}</td>
+                    <td>{{ctt.attributes.email_address}}</td>
+                    <td *ngIf="canDeleteContact" class="collapsing">
+                        <button class="ui icon circular button inverted" (click)="deleteContact(ctt.id)">
+                            <i class="trash icon red"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="ui basic modal">
+        <div class="ui icon header"><i class="icon trash"></i>Delete Contact</div>
+        <div class="content">
+            <p>
+                Are you sure you want to delete <strong>{{contactDeletePromptName}}</strong>?
+            </p>
+        </div>
+        <div class="actions">
+            <div class="ui red inverted approve button">Delete</div>
+            <div class="ui inverted cancel button">Cancel</div>
+        </div>
+    </div>
+</div>
