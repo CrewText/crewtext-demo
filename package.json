@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
@@ -21,9 +22,11 @@
     "@angular/router": "~9.1.0",
     "@types/jquery": "^3.3.34",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
     "fomantic-ui": "^2.8.4",
     "js-base64": "^2.5.2",
     "libphonenumber-js": "^1.7.49",
+    "path": "^0.12.7",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
