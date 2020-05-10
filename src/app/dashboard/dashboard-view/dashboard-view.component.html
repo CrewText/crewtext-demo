@@ -1,0 +1,52 @@
+<div class="ui four column centered stackable grid">
+    <div class="row">
+        <a class="centered column ui statistic" href="/messages/received">
+            <div class="value">
+                <div *ngIf="messagesToday==undefined" class="ui fluid placeholder">
+                    <div class="image header"></div>
+                </div>
+                <span>{{messagesToday}}</span>
+            </div>
+            <div class="label">
+                Messages Today
+            </div>
+        </a>
+        <!-- 
+        <div class="centered column ui statistic">
+            <div class="value">
+                <div *ngIf="messagesToday<0" class="ui fluid placeholder">
+                    <div class="line"></div>
+                </div>
+                <span *ngIf=messagesToday>{{messagesToday}}</span>
+            </div>
+            <div class="label">
+                Messages Today
+            </div>
+        </div>
+
+        <div class="centered column ui statistic">
+            <div class="value">
+                <div *ngIf="messagesToday<0" class="ui fluid placeholder">
+                    <div class="line"></div>
+                </div>
+                <span *ngIf=messagesToday>{{messagesToday}}</span>
+            </div>
+            <div class="label">
+                Messages Today
+            </div>
+        </div>
+
+        <div class="centered column ui statistic">
+            <div class="value">
+                <div *ngIf="messagesToday<0" class="ui fluid placeholder">
+                    <div class="line"></div>
+                </div>
+                <span *ngIf=messagesToday>{{messagesToday}}</span>
+            </div>
+            <div class="label">
+                Messages Today
+            </div>
+        </div> -->
+    </div>
+
+</div>

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { VolubleService } from '../voluble.service';
+import { AuthService } from '../../auth.service';
+import { VolubleService } from '../../voluble.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-dashboard-view',
+  templateUrl: './dashboard-view.component.html',
+  styleUrls: ['./dashboard-view.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardViewComponent implements OnInit {
 
   constructor(public authSvc: AuthService, private volubleSvc: VolubleService) { }
 

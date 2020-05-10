@@ -1,0 +1,15 @@
+<div class="ui main text container">
+    <div class="ui vertical very padded segment">
+        <h1 class="ui header">Message Thread</h1>
+    </div>
+    <div class="ui vertical padded segment">
+        <div id="compose-modal" class="ui longer modal">
+            <h2 class="header">Compose new message</h2>
+            <div class="content">
+                <app-message-compose-form [reply_to_message]="compose_form_replyto_message"
+                    [reply_to_contact]="compose_form_replyto_contact"></app-message-compose-form>
+            </div>
+        </div>
+        <app-messages-list [thread_root_message_id]="route.snapshot.params.id"></app-messages-list>
+    </div>
+</div>

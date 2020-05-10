@@ -1,78 +1,79 @@
-<div class="ui container">
-    <div class="ui vertical very padded segment">
-        <h1 class="ui header">Messages Received</h1>
+<a *ngFor="let msg of messages" class="ui card fluid" [routerLink]="['/messages/thread',msg.id]">
+    <div class="content" [ngClass]="{'right aligned':msg.attributes.direction=='OUTBOUND'}">
+        <div class="ui header">
+            {{msg.relationships.contact.data.attributes.first_name + " " + msg.relationships.contact.data.attributes.surname}}
+        </div>
+        <div class="meta">
+            <img src="{{msg.relationships.user.data.attributes.picture}}" class="ui avatar image" />
+            {{msg.relationships.user.data.attributes.name}} &middot;
+            {{msg.attributes.sent_time | date:'HH:mm - dd MMM yy'}}
+        </div>
+        <div class="description">
+            {{msg.attributes.body}}</div>
     </div>
-    <div class="ui vertical padded segment">
-        <!-- <div *ngFor="let msg of messages|async" class="ui card fluid">
-            <div class="content">
-                <div class="ui header">
-                    {{msg.relationships.contact.data.attributes.first_name + " " + msg.relationships.contact.data.attributes.surname}}
-                </div>
-                <div class="meta">
-                    <img src="{{msg.relationships.user.data.attributes.picture}}" class="ui avatar image" />
-                    {{msg.relationships.user.data.attributes.name}} &middot;
-                    {{msg.attributes.sent_time | date:'HH:mm - dd MMM yy'}}
-                </div>
-                <div class="description">{{msg.attributes.body}}</div>
-            </div>
-            <div class="ui bottom attached button">
-                <i class="reply icon"></i> Reply
-            </div>
-        </div> -->
-        <div class="ui divided items">
-            <div *ngFor="let msg of messages|async" class="item">
-                <div class="content">
-                    <div class="ui header">
-                        {{msg.relationships.contact.data.attributes.first_name + " " + msg.relationships.contact.data.attributes.surname}}
-                    </div>
-                    <div class="meta">
-                        <img src="{{msg.relationships.user.data.attributes.picture}}" class="ui avatar image" />
-                        {{msg.relationships.user.data.attributes.name}} &middot;
-                        {{msg.attributes.sent_time | date:'HH:mm - dd MMM yy'}}
-                    </div>
-                    <div class="description">{{msg.attributes.body}}</div>
-                    <div class="extra">
-                        <div class="ui right floated button">
-                            <i class="reply icon"></i> Reply
-                        </div>
-                    </div>
-                </div>
+    <div class="ui bottom attached button" *ngIf="msg.attributes.direction=='INBOUND'"
+        (click)="onReply($event, msg.id)">
+        <i class="reply icon"></i> Reply
+    </div>
+</a>
 
-            </div>
-        </div>
+<!-- <div class="ui divided link items">
+    <div *ngFor="let msg of messages" class="item" [routerLink]="['/messages/thread',msg.id]">
 
-        <div *ngIf="!messages" class="ui card fluid">
-            <div class="content">
-                <div class="ui placeholder">
-                    <div class="header">
-                        <div class="line"></div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
+        <div class="content">
+            <div class="ui header clearboth"
+                [ngClass]="{'right':msg.attributes.direction=='OUTBOUND','floated':msg.attributes.direction=='OUTBOUND'}">
+                {{msg.relationships.contact.data.attributes.first_name + " " + msg.relationships.contact.data.attributes.surname}}
             </div>
-        </div>
-        <div *ngIf="!messages" class="ui card fluid">
-            <div class="content">
-                <div class="ui placeholder">
-                    <div class="header">
-                        <div class="line"></div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
+            <div class="meta clearboth"
+                [ngClass]="{'right':msg.attributes.direction=='OUTBOUND','floated':msg.attributes.direction=='OUTBOUND'}">
+                <img src="{{msg.relationships.user.data.attributes.picture}}" class="ui avatar image" />
+                {{msg.relationships.user.data.attributes.name}} &middot;
+                {{msg.attributes.sent_time | date:'HH:mm - dd MMM yy'}}
             </div>
-        </div>
-        <div *ngIf="!messages" class="ui card fluid">
-            <div class="content">
-                <div class="ui placeholder">
-                    <div class="header">
-                        <div class="line"></div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="line"></div>
+            <div class="description clearboth"
+                [ngClass]="{'right':msg.attributes.direction=='OUTBOUND','floated':msg.attributes.direction=='OUTBOUND'}">
+                {{msg.attributes.body}}
+            </div>
+            <div *ngIf="msg.attributes.direction=='INBOUND'" class="extra clearboth">
+                <div class="ui right floated button" (click)="onReply(msg.id)">
+                    <i class="reply icon"></i> Reply
                 </div>
             </div>
         </div>
 
     </div>
+</div> -->
+<div *ngIf="!messages" class="ui card fluid">
+    <div class="content">
+        <div class="ui placeholder">
+            <div class="header">
+                <div class="line"></div>
+            </div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!messages" class="ui card fluid">
+    <div class="content right aligned">
+        <div class="ui placeholder">
+            <div class="header">
+                <div class="line"></div>
+            </div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!messages" class="ui card fluid">
+    <div class="content">
+        <div class="ui placeholder">
+            <div class="header">
+                <div class="line"></div>
+            </div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+</div>

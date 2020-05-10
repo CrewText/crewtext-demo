@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AuthGuard } from './auth/auth.guard';
+import { DashboardPageComponent } from './dashboard/dashboard-page/dashboard-page.component';
+import { AssignOrganizationComponent } from './dashboard/assign-organization/assign-organization.component';
 
 
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    component: DashboardPageComponent
+  },
+  {
+    path: 'join',
+    component: AssignOrganizationComponent
   },
   {
     path: 'contacts',
@@ -22,9 +26,17 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'dashboard'
+    redirectTo: '/dashboard'
+  },
+  {
+    path: '**',
+    redirectTo: '/dashboard'
   }
 ];
 

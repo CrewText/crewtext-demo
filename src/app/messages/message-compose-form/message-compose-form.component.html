@@ -1,0 +1,38 @@
+<div *ngIf="reply_to_message" class="ui card">
+    <div class="content">
+        <div class="header">Replying To</div>
+        <div class="description">
+            <strong>{{reply_to_contact.first_name}} {{reply_to_contact.surname}}:</strong> {{reply_to_message.body}}
+        </div>
+    </div>
+</div>
+<form class="ui form" id="message-form">
+    <div class="field">
+        <label>Contacts</label>
+        <div class="ui clearable search multiple selection labeled dropdown" id="contacts-dropdown">
+            <input #contactsDropdownInput type="hidden" name="contact">
+            <i class="dropdown icon"></i>
+            <div class="default text">Contacts</div>
+            <div class="menu">
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>Message Body</label>
+        <textarea #body rows=3 name="body"></textarea>
+        <div class="ui text">SMS characters remaining: <strong><span class="ui text"
+                    [class.red]="body.value.length>=320"
+                    [class.orange]="body.value.length>=290 && body.value.length<320">{{ body.value.length <= 320 ?320 - body.value.length : 0 }}
+                </span></strong>
+        </div>
+    </div>
+    <button class="ui primary button"
+        (click)="sendMessage()">{{reply_to_message ? "Send Reply" : "Send Message"}}</button>
+</form>
+
+<div class="ui dimmer" id="sendingDimmer">
+    <div class="ui text loader">
+        Sending Message{{contactsDropdownInput.value && contactsDropdownInput.value.includes(',')?"s":""}}
+    </div>
+</div>

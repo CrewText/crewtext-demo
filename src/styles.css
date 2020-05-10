@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+.main.container
+{
+    margin-top: 7em;
+}
+
+.clearboth
+{
+    clear: both;
+}
+
+.masthead.segment
+{
+    min-height:100%;
+    padding-top: 15%;
+}
+
+.masthead > .header{
+    font-size: 4em !important;
+}
+
+.masthead > p{
+    font-size: 2em;
+    line-height: 3em;
+}

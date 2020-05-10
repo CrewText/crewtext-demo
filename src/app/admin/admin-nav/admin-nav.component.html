@@ -1,0 +1,7 @@
+<div class="ui main text container">
+    <div class="ui secondary pointing menu">
+        <a class="item" [routerLink]="['/admin/overview']" routerLinkActive="active">Overview</a>
+        <a *ngIf="authSvc.hasScope(['user:view'])" class="item" [routerLink]="['/admin/users']"
+            routerLinkActive="active">Users</a>
+    </div>
+</div>

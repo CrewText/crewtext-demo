@@ -1,6 +1,5 @@
-<div class="ui fluid container">
-
-    <div class="ui menu top inverted">
+<div class="ui menu fixed inverted">
+    <div class="ui container">
         <div class="header item"><img src="/assets/favicons/ct-w.svg" /></div>
         <div *ngIf="authSvc.isLoggedIn && authSvc.userOrg" class="ui labeled icon menu top inverted">
             <a class="item" routerLinkActive="active" routerLink="/dashboard"><i
@@ -18,8 +17,14 @@
             <div class="item"><img class="ui avatar image"
                     src="{{authSvc.id_token.picture}}" />{{authSvc.id_token.name}}
             </div>
-            <a class="item" (click)="authSvc.logout()"><i class="sign out white icon"></i>Log
-                Out</a>
+            <a *ngIf="this.authSvc.hasScope(['organization:owner', 'organization:edit'])" class="item"
+                routerLink="/admin">
+                <i class="cog white icon"></i>
+                Settings
+            </a>
+            <a class="item" (click)="authSvc.logout()"><i class="sign out white icon"></i>
+                Log Out
+            </a>
         </div>
     </div>
 </div>

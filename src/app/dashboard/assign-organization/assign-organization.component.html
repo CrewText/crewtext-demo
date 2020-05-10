@@ -1,0 +1,44 @@
+<div class="ui vertical center aligned masthead inverted segment" id="mastheadSegment">
+    <h1 class="ui header">Join An Organization</h1>
+    <p>You're not signed up to an organization yet. Let's change that.</p>
+    <div (click)="scrollToSignUp()" class="ui huge primary button">Join Up <i class="right arrow icon"></i></div>
+</div>
+<div class="ui main container">
+    <div class="ui center aligned vertical segment" id="signUpSegment">
+        <div class="ui ordered steps">
+            <div class="step" [ngClass]="{active: step_id==1}">
+                <i class="search icon"></i>
+                <div class="content">
+                    <div class="title">Find Your Organization</div>
+                    <div class="description">Find the organization on Crewtext</div>
+                </div>
+            </div>
+            <div class="step" [ngClass]="{active: step_id==2, disabled: step_id<2}">
+                <i class=" key icon"></i>
+                <div class="content">
+                    <div class="title">Security Key</div>
+                    <div class="description">Enter your organizations' security key</div>
+                </div>
+            </div>
+            <div class="step" [ngClass]="{active: step_id==3, disabled: step_id<3}">
+                <i class=" door open icon"></i>
+                <div class="content">
+                    <div class="title">Join Organization</div>
+                    <div class="description">Become a part of the team</div>
+                </div>
+            </div>
+        </div>
+        <div class="ui center aligned vertical segment" id="step_1">
+            <h1>Find Your Organization</h1>
+            <div (click)="transitionBetweenSteps(1,2)" class="ui huge primary button">Join Up <i
+                    class="right arrow icon"></i></div>
+        </div>
+        <div class="ui center aligned vertical segment" id="step_2">
+            <h1>Enter Security Key</h1>
+        </div>
+        <div class="ui center aligned vertical segment" id="step_3">
+            <h1>Join Organization</h1>
+        </div>
+    </div>
+
+</div>
