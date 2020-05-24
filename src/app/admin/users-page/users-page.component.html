@@ -4,17 +4,42 @@
         <h1 class="ui header">Users</h1>
     </div>
     <div class="ui vertical padded segment">
-        <table class="ui celled striped table">
+        <div id="add-new-user-modal" class="ui longer modal">
+            <h2 class="header">Add new user</h2>
+            <div class="content">
+                <app-user-create-form></app-user-create-form>
+            </div>
+        </div>
+        <table class="ui compact celled striped table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th *ngIf="authSvc.hasScope(['user:add'])" colspan="3">
+                        <button class="ui primary labeled icon button" (click)="showNewUserForm()">
+                            <i class="plus icon"></i>
+                            New User
+                        </button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>User</th>
                     <th>Email Address</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Steve Jobs</td>
-                    <td>steve@apple.com</td>
+                <tr *ngFor="let user of users" [routerLink]="['/routePath']">
+                    <td>
+                        <h4 class="ui image header">
+                            <img class="ui image avatar" src="{{ user.picture }}" />
+                            <div class="content">
+                                {{ user.name }}
+                            </div>
+                        </h4>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td class="collapsing"><button class="ui icon circular button inverted">
+                            <i class="trash icon red"></i>
+                        </button></td>
                 </tr>
             </tbody>
         </table>

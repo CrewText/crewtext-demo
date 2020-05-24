@@ -1,10 +1,4 @@
-<div class="ui main text container">
-    <div class="ui secondary pointing menu">
-        <a class="item" [routerLink]="['/messages','compose']" routerLinkActive="active">Compose New</a>
-        <a class="item" [routerLink]="['/messages','received']" routerLinkActive="active">Received</a>
-        <a class="item" [routerLink]="['/messages','sent']" routerLinkActive="active">Sent</a>
-    </div>
-</div>
+<app-messages-nav></app-messages-nav>
 <div class="ui text container">
     <div class="ui vertical very padded segment">
         <h1 class="ui header">Messages Sent</h1>

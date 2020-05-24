@@ -16,34 +16,6 @@
         <i class="reply icon"></i> Reply
     </div>
 </a>
-
-<!-- <div class="ui divided link items">
-    <div *ngFor="let msg of messages" class="item" [routerLink]="['/messages/thread',msg.id]">
-
-        <div class="content">
-            <div class="ui header clearboth"
-                [ngClass]="{'right':msg.attributes.direction=='OUTBOUND','floated':msg.attributes.direction=='OUTBOUND'}">
-                {{msg.relationships.contact.data.attributes.first_name + " " + msg.relationships.contact.data.attributes.surname}}
-            </div>
-            <div class="meta clearboth"
-                [ngClass]="{'right':msg.attributes.direction=='OUTBOUND','floated':msg.attributes.direction=='OUTBOUND'}">
-                <img src="{{msg.relationships.user.data.attributes.picture}}" class="ui avatar image" />
-                {{msg.relationships.user.data.attributes.name}} &middot;
-                {{msg.attributes.sent_time | date:'HH:mm - dd MMM yy'}}
-            </div>
-            <div class="description clearboth"
-                [ngClass]="{'right':msg.attributes.direction=='OUTBOUND','floated':msg.attributes.direction=='OUTBOUND'}">
-                {{msg.attributes.body}}
-            </div>
-            <div *ngIf="msg.attributes.direction=='INBOUND'" class="extra clearboth">
-                <div class="ui right floated button" (click)="onReply(msg.id)">
-                    <i class="reply icon"></i> Reply
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div> -->
 <div *ngIf="!messages" class="ui card fluid">
     <div class="content">
         <div class="ui placeholder">

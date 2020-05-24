@@ -8,10 +8,11 @@ import { MessageComposeFormComponent } from './message-compose-form/message-comp
 import { InboundMessagesComponent } from './inbound-messages/inbound-messages.component';
 import { ThreadComponent } from './thread/thread.component';
 import { OutboundMessagesComponent } from './outbound-messages/outbound-messages.component';
+import { MessagesNavComponent } from './messages-nav/messages-nav.component';
 
 
 @NgModule({
-  declarations: [MessagesListComponent, MessageComposeComponent, MessageComposeFormComponent, InboundMessagesComponent, ThreadComponent, OutboundMessagesComponent],
+  declarations: [MessagesListComponent, MessageComposeComponent, MessageComposeFormComponent, InboundMessagesComponent, ThreadComponent, OutboundMessagesComponent, MessagesNavComponent],
   imports: [
     CommonModule,
     MessagesRoutingModule

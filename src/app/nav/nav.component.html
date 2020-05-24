@@ -14,7 +14,7 @@
                 In</a>
         </div>
         <div *ngIf="authSvc.isLoggedIn" class="ui right labeled icon menu inverted">
-            <div class="item"><img class="ui avatar image"
+            <div class="item"><img class="ui rounded icon image"
                     src="{{authSvc.id_token.picture}}" />{{authSvc.id_token.name}}
             </div>
             <a *ngIf="this.authSvc.hasScope(['organization:owner', 'organization:edit'])" class="item"

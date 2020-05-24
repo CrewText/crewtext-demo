@@ -1,0 +1,25 @@
+<form class="ui form" id="userCreateForm">
+    <div class="ui field">
+        <div class="ui items"></div>
+        <input type="hidden" name="avatar">
+        <h3 class="ui header">
+            <img class="ui circular image" id="avatar" src="https://www.gravatar.com/avatar/0?d=mp" />
+            {{firstName.value}} {{lastName.value}}
+        </h3>
+    </div>
+    <div class="ui divider"></div>
+    <div class="ui required field">
+        <label for="email-address">Email address</label>
+        <input type="email" name="email-address" #emailInput id="emailInput">
+    </div>
+    <div class="ui two fields">
+        <div class="ui required field">
+            <label for="first-name">First Name</label>
+            <input type="text" name="first-name" #firstName id="firstName">
+        </div>
+        <div class="ui required field">
+            <label for="last-name">Last Name</label>
+            <input type="text" name="last-name" #lastName id="lastName">
+        </div>
+    </div>
+</form>

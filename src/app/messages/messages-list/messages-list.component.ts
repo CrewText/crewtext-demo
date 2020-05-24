@@ -34,7 +34,7 @@ export class MessagesListComponent implements OnInit {
           if (!(resp.data instanceof Array)) { resp.data = [resp.data] }
           return Promise.all(resp.data.map((val, _idx, _arr) => {
             return Promise.all([this.volubleSvc.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
-            val.relationships.user.data.id ? this.auth0Svc.getUser(val.relationships.user.data.id) : void 0])
+            val.relationships.user.data.id ? this.auth0Svc.getUser(this.authSvc.userOrg, val.relationships.user.data.id, this.authSvc.jwt) : void 0])
               .then(([contact, user]) => {
                 val.relationships.contact.data = contact.data
                 if (!user.name && user.given_name && user.family_name) { user.name = `${user.given_name} ${user.family_name}` }
@@ -70,7 +70,7 @@ export class MessagesListComponent implements OnInit {
 
           return Promise.all(messages.map((val, _idx, _arr) => {
             return Promise.all([this.volubleSvc.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
-            val.relationships.user.data.id ? this.auth0Svc.getUser(val.relationships.user.data.id) : void 0])
+            val.relationships.user.data.id ? this.auth0Svc.getUser(this.authSvc.userOrg, val.relationships.user.data.id, this.authSvc.jwt) : void 0])
               .then(([contact, user]) => {
                 val.relationships.contact.data = contact.data
                 if (!user.name && user.given_name && user.family_name) { user.name = `${user.given_name} ${user.family_name}` }
