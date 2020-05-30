@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Contact, Message, MessageDirections, Servicechain, Category } from 'voluble-common';
+import { Contact, Message, MessageDirections, Servicechain, Category, User } from 'voluble-common';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -206,5 +206,26 @@ export class VolubleService {
         if (!resp.ok) { throw new Error((await resp.json()).errors[0].detail) }
         return resp.json()
       })
+  }
+
+  createUser(organization_id: string, user_id: string): Promise<JSONApiResponse<User>> {
+    let url = `${environment.voluble.api_base}/orgs/${organization_id}/users`
+    let data = {
+      id: user_id
+    }
+
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.authSvc.jwt}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(async resp => {
+        if (!resp.ok) { throw new Error((await resp.json()).errors[0].detail) }
+        return resp.json()
+      })
+
   }
 }

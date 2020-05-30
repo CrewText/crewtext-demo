@@ -1,9 +1,10 @@
-<form class="ui form" id="userCreateForm">
+<form class="ui form" id="userCreateForm" action="">
     <div class="ui field">
         <div class="ui items"></div>
-        <input type="hidden" name="avatar">
+        <input type="hidden" name="avatar" value="https://www.gravatar.com/avatar/0?d=identicon" id="avatarInput"
+            #avatarInput>
         <h3 class="ui header">
-            <img class="ui circular image" id="avatar" src="https://www.gravatar.com/avatar/0?d=mp" />
+            <img class="ui circular image" id="avatar" src="{{avatarInput.value}}" />
             {{firstName.value}} {{lastName.value}}
         </h3>
     </div>
@@ -22,4 +23,18 @@
             <input type="text" name="last-name" #lastName id="lastName">
         </div>
     </div>
+    <div class="ui field">
+        <div class="ui primary button" (click)="createUser()">Create User</div>
+    </div>
 </form>
+<div class="ui list hide" id="createUserList">
+    <div class="item">
+        <i class="notched circle loading icon" id="createUserIdentityMgrItem"></i> Creating user with identity manager
+    </div>
+    <div class="item">
+        <i class="notched circle loading icon" id="sendPwdResetItem"></i> Sending password reset email
+    </div>
+    <div class="item">
+        <i class="notched circle loading icon" id="addToOrgItem"></i> Adding to Organization
+    </div>
+</div>

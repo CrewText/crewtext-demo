@@ -21,7 +21,6 @@ export class UsersPageComponent implements OnInit {
     $("#add-new-user-modal").modal()
     this.auth0Svc.getUsers(this.authSvc.userOrg, this.authSvc.jwt)
       .subscribe(returnedUsers => {
-        console.log(returnedUsers);
         this.users = this.users.concat(returnedUsers)
       })
   }

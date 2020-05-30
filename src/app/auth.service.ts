@@ -31,6 +31,27 @@ export class AuthService {
     window.location.assign('/')
   }
 
+  public sendPasswordReset(user_email: string, auth_token: string) {
+    let auth_url = `https://voluble-dev.eu.auth0.com/dbconnections/change_password`
+    return fetch(auth_url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${auth_token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        client_id: environment.auth0_client_id,
+        email: user_email,
+        connection: "Username-Password-Authentication"
+      })
+    })
+      .then(async resp => {
+        let txt = await resp.text()
+        if (!resp.ok) { throw new Error(JSON.parse(txt).errors[0].detail) }
+        return txt
+      })
+  }
+
   public get isLoggedIn() {
     // return this.auth0.isAuthenticated()
     return !!this.id_token
