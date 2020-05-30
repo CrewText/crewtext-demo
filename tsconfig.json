@@ -19,7 +19,8 @@
       "dom"
     ],
     "types": [
-      "jquery"
+      "jquery",
+      "jasmine"
     ],
   },
   "angularCompilerOptions": {
