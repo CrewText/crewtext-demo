@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "heroku-prebuild": "chmod +x ./.ci/heroku-preinstall.sh; bash ./.ci/heroku-preinstall.sh; npm install -g @angular/cli@11.x.x",
-    "heroku-cleanup": "chmod +x ./.ci/heroku-postinstall.sh; bash ./.ci/heroku-postinstall.sh; tsc -v ; tsc"
+    "heroku-cleanup": "chmod +x ./.ci/heroku-postinstall.sh; bash ./.ci/heroku-postinstall.sh"
   },
   "browser": {
     "crypto": true
