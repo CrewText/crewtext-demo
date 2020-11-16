@@ -8,14 +8,14 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "preinstall": "chmod +x ./.ci/heroku-preinstall.sh; bash ./.ci/heroku-preinstall.sh",
-    "postinstall": "chmod +x ./.ci/heroku-postinstall.sh; bash ./.ci/heroku-postinstall.sh; tsc -v ; tsc"
+    "heroku-prebuild": "chmod +x ./.ci/heroku-preinstall.sh; bash ./.ci/heroku-preinstall.sh",
+    "heroku-cleanup": "chmod +x ./.ci/heroku-postinstall.sh; bash ./.ci/heroku-postinstall.sh; tsc -v ; tsc"
   },
   "browser": {
     "crypto": true
   },
   "engines": {
-    "node": "13.0.1"
+    "node": "15.2.0"
   },
   "private": true,
   "dependencies": {
