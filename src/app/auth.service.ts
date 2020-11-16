@@ -31,9 +31,9 @@ export class AuthService {
     window.location.assign('/')
   }
 
-  public sendPasswordReset(user_email: string, auth_token: string) {
+  public async sendPasswordReset(user_email: string, auth_token: string) {
     let auth_url = `https://voluble-dev.eu.auth0.com/dbconnections/change_password`
-    return fetch(auth_url, {
+    const resp = await fetch(auth_url, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${auth_token}`,
@@ -44,12 +44,11 @@ export class AuthService {
         email: user_email,
         connection: "Username-Password-Authentication"
       })
-    })
-      .then(async resp => {
-        let txt = await resp.text()
-        if (!resp.ok) { throw new Error(JSON.parse(txt).errors[0].detail) }
-        return txt
-      })
+    });
+
+    let txt = await resp.text();
+    if (!resp.ok) { throw new Error(JSON.parse(txt).errors[0].detail); }
+    return txt;
   }
 
   public get isLoggedIn() {
@@ -58,10 +57,15 @@ export class AuthService {
   }
 
   public get userOrg(): string {
-    return sessionStorage.getItem('organization')
+    return this.id_token["https://crewtext.com/organization"]
   }
 
+  // public get getUser() {
+
+  // }
+
   public set userOrg(org: string) {
+    // TODO: MAKE COMPLIANT WITH GET USER ORG
     if (!org) { sessionStorage.removeItem('organization') }
     else { sessionStorage.setItem('organization', org) }
   }

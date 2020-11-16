@@ -15,10 +15,7 @@
         <table *ngIf="canViewContact" class="ui compact celled striped table">
             <thead>
                 <tr>
-                    <th *ngIf="canDeleteContact" colspan=5>
-                        <h3 class="ui header">Available Contacts</h3>
-                    </th>
-                    <th *ngIf="!canDeleteContact" colspan=4>
+                    <th *ngIf="canDeleteContact" [attr.colspan]="canDeleteContact ? 5 : 4">
                         <h3 class="ui header">Available Contacts</h3>
                     </th>
                 </tr>
@@ -114,7 +111,8 @@
             </tbody>
         </table>
     </div>
-    <div class="ui basic modal">
+
+    <div class="ui basic modal" id="deleteModal">
         <div class="ui icon header"><i class="icon trash"></i>Delete Contact</div>
         <div class="content">
             <p>

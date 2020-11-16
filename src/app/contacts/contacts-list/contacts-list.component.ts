@@ -10,41 +10,40 @@ import { VolubleService } from '../../voluble.service';
 })
 export class ContactsListComponent implements OnInit {
   contacts: any[]
-  constructor(private volubleSvc: VolubleService, public authSvc: AuthService, private router: Router) { }
+  constructor(private volubleSvc: VolubleService, public authSvc: AuthService) { }
 
   errText: string
   public contactDeletePromptName: string
 
   async ngOnInit() {
-    if (!this.authSvc.isLoggedIn || !this.authSvc.hasScope(['contact:view'])) {
+    if (!this.authSvc.isLoggedIn || !this.canViewContact) {
       this.errText = "You do not have the privileges to view the contacts."
+      return
     }
-    else {
-      this.volubleSvc.getContacts(this.authSvc.userOrg)
-        .then((resp: any | any[]) => {
-          if (!Array.isArray(resp.data)) { resp.data = [resp.data] }
-          return Promise.all(resp.data.map(async (contact, idx, arr) => {
-            if (!contact.relationships.category.data) {
-              contact.relationships.category.data = { 'attributes': { 'name': "" } }
-              return contact
-            } else {
-              return this.volubleSvc.getCategory(this.authSvc.userOrg, contact.relationships.category.data.id)
-                .then((category_resp) => {
-                  contact.relationships.category.data = category_resp.data
-                  return contact
-                })
-                .catch(e => e)
-            }
-          })
-          )
-        })
-        .then(contactsOrErrs => {
-          contactsOrErrs.forEach(val => { if (val instanceof Error) { throw val } })
 
-          this.contacts = contactsOrErrs
+    this.volubleSvc.contacts.getContacts(this.authSvc.userOrg)
+      .then((resp: any | any[]) => {
+        if (!Array.isArray(resp.data)) { resp.data = [resp.data] }
+        return Promise.all(resp.data.map(async (contact, idx, arr) => {
+          if (!contact.relationships.category.data) {
+            contact.relationships.category.data = { 'attributes': { 'name': "" } }
+            return contact
+          } else {
+            return this.volubleSvc.categories.getCategory(this.authSvc.userOrg, contact.relationships.category.data.id)
+              .then((category_resp) => {
+                contact.relationships.category.data = category_resp.data
+                return contact
+              })
+              .catch(e => e)
+          }
         })
+        )
+      })
+      .then(contactsOrErrs => {
+        contactsOrErrs.forEach(val => { if (val instanceof Error) { throw val } })
 
-    }
+        this.contacts = contactsOrErrs
+      })
   }
 
   deleteContact(contact_id: string) {
@@ -56,9 +55,9 @@ export class ContactsListComponent implements OnInit {
     }
 
     //@ts-ignore
-    $('.ui.basic.modal').modal({
+    $('#deleteModal').modal({
       onApprove: () => {
-        this.volubleSvc.deleteContact(this.authSvc.userOrg, contact_id)
+        this.volubleSvc.contacts.deleteContact(this.authSvc.userOrg, contact_id)
           .then((resp) => {
             window.location.reload()
           })
@@ -66,7 +65,7 @@ export class ContactsListComponent implements OnInit {
     })
 
     //@ts-ignore
-    $('.ui.basic.modal').modal('show')
+    $('#deleteModal').modal('show')
   }
 
   get canAddContact(): boolean {

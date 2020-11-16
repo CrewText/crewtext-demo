@@ -93,7 +93,7 @@ export class UserCreateFormComponent implements OnInit {
         document.getElementById("createUserIdentityMgrItem").className = "green check icon"
         Promise.all([
           this.authSvc.sendPasswordReset(resp["email"], this.authSvc.access_token).then(() => document.getElementById("sendPwdResetItem").className = "green check icon").catch(() => document.getElementById("sendPwdResetItem").className = "red times icon"),
-          this.volubleSvc.createUser(this.authSvc.userOrg, resp.user_id).then(() => document.getElementById("addToOrgItem").className = "green check icon").catch(() => document.getElementById("addToOrgItem").className = "red times icon")
+          this.volubleSvc.users.createUser(this.authSvc.userOrg, resp.user_id).then(() => document.getElementById("addToOrgItem").className = "green check icon").catch(() => document.getElementById("addToOrgItem").className = "red times icon")
           //TODO: #1 Assign user permissions
 
         ])

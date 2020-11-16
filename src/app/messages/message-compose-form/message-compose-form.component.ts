@@ -23,7 +23,7 @@ export class MessageComposeFormComponent implements OnInit, OnChanges {
 
 
 
-    this.volubleSvc.getContacts(this.authSvc.userOrg)
+    this.volubleSvc.contacts.getContacts(this.authSvc.userOrg)
       .then(contacts => {
         //@ts-ignore
         $('#contacts-dropdown').dropdown('setup menu', {
@@ -48,15 +48,16 @@ export class MessageComposeFormComponent implements OnInit, OnChanges {
     }
   }
 
-  sendMessage() {
+  async sendMessage(e) {
+    e.preventDefault()
     //@ts-ignore
     let vals = $('#message-form').form('get values', ['contact', 'body'])
     //@ts-ignore
     $('#sendingDimmer').dimmer('show')
 
-    return Promise.all(vals['contact'].split(',').map(contact => {
-      return this.volubleSvc.sendMessage(this.authSvc.userOrg, contact, vals['body'], this.reply_to_message ? this.reply_to_message.id : null)
-    }))
+    Promise.all(vals['contact'].split(',').map(contact =>
+      this.volubleSvc.messages.sendMessage(this.authSvc.userOrg, contact, vals['body'], this.reply_to_message ? this.reply_to_message.id : null)
+    ))
       .then((messages_sent) => {
         this.router.navigateByUrl('/messages/sent')
       })

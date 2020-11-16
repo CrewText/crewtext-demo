@@ -12,12 +12,12 @@ export class DashboardViewComponent implements OnInit {
   constructor(public authSvc: AuthService, private volubleSvc: VolubleService) { }
 
   messagesToday: number
-  ngOnInit(): void {
+
+  async ngOnInit(): Promise<void> {
     let today_start: Date = new Date(new Date().setHours(0, 0, 0, 0))
-    this.volubleSvc.getMessageCount(this.authSvc.userOrg, today_start)
-      .subscribe((resp) => {
-        this.messagesToday = resp.data.count
-      })
+
+    this.messagesToday = await this.volubleSvc.messages.getMessageCount(this.authSvc.userOrg, today_start)
+      .then(resp => resp.data.count)
   }
 
 }

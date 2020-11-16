@@ -1,0 +1,92 @@
+<div class="ui main container">
+    <div class="ui vertical very padded segment">
+        <h1 class="ui header">Servicechains</h1>
+    </div>
+    <div class="ui vertical padded segment">
+        <button *ngIf="canAddServicechain" routerLink="/servicechains/create" class="ui primary labeled icon button">
+            <i class="plus icon"></i>
+            New Servicechain
+        </button>
+
+        <div *ngIf="errText" id="msg_negative" class="ui negative message">
+            <p>{{errText}}</p>
+        </div>
+
+        <table *ngIf="canViewServicechain" class="ui compact celled striped table">
+            <thead>
+                <tr>
+                    <th [attr.colspan]="canDeleteServicechain ? 3 : 2">
+                        <h3 class="ui header">Available Servicechains</h3>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Number of Services</th>
+                    <th *ngIf="canDeleteServicechain"></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!servicechains">
+                <tr>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui placeholder">
+                            <div class="line"></div>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tbody *ngFor="let sc of servicechains">
+                <tr>
+                    <td>{{sc.attributes.name}}</td>
+                    <td>{{sc.attributes.services.length}}</td>
+                    <td *ngIf="canDeleteServicechain" class="collapsing">
+                        <button class="ui icon circular button inverted" (click)="deleteServicechain(sc.id)">
+                            <i class="trash icon red"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="ui basic modal" id="deleteModal">
+        <div class="ui icon header"><i class="icon trash"></i>Delete Servicechain</div>
+        <div class="content">
+            <p>
+                Are you sure you want to delete <strong>{{servicechainDeletePromptName}}</strong>?
+            </p>
+        </div>
+        <div class="actions">
+            <div class="ui red inverted approve button">Delete</div>
+            <div class="ui inverted cancel button">Cancel</div>
+        </div>
+    </div>
+</div>

@@ -29,11 +29,11 @@ export class MessagesListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (!this.thread_root_message_id) {
-      this.messages = await this.volubleSvc.getMessages(this.authSvc.userOrg, this.direction)
+      this.messages = await this.volubleSvc.messages.getMessages(this.authSvc.userOrg, this.direction)
         .then(resp => {
           if (!(resp.data instanceof Array)) { resp.data = [resp.data] }
           return Promise.all(resp.data.map((val, _idx, _arr) => {
-            return Promise.all([this.volubleSvc.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
+            return Promise.all([this.volubleSvc.contacts.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
             val.relationships.user.data.id ? this.auth0Svc.getUser(this.authSvc.userOrg, val.relationships.user.data.id, this.authSvc.jwt) : void 0])
               .then(([contact, user]) => {
                 val.relationships.contact.data = contact.data
@@ -55,21 +55,21 @@ export class MessagesListComponent implements OnInit {
           return Promise.resolve(e)
         })
     } else {
-      this.messages = await this.volubleSvc.getMessage(this.authSvc.userOrg, this.thread_root_message_id)
+      this.messages = await this.volubleSvc.messages.getMessage(this.authSvc.userOrg, this.thread_root_message_id)
         .then(async msg => {
           let messages = [msg.data]
-          let repliesToProcess = await this.volubleSvc.getMessageReplies(this.authSvc.userOrg, messages[messages.length - 1].id)
+          let repliesToProcess = await this.volubleSvc.messages.getMessageReplies(this.authSvc.userOrg, messages[messages.length - 1].id)
             .then(replies => { return replies.data })
           messages.push(...repliesToProcess)
           while (repliesToProcess.length) {
             //console.log(repliesToProcess)
-            await this.volubleSvc.getMessageReplies(this.authSvc.userOrg, repliesToProcess[0].id)
+            await this.volubleSvc.messages.getMessageReplies(this.authSvc.userOrg, repliesToProcess[0].id)
               .then(replies => { repliesToProcess.push(...replies.data); messages.push(...replies.data) })
               .then(() => { repliesToProcess.splice(0, 1); })
           }
 
           return Promise.all(messages.map((val, _idx, _arr) => {
-            return Promise.all([this.volubleSvc.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
+            return Promise.all([this.volubleSvc.contacts.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
             val.relationships.user.data.id ? this.auth0Svc.getUser(this.authSvc.userOrg, val.relationships.user.data.id, this.authSvc.jwt) : void 0])
               .then(([contact, user]) => {
                 val.relationships.contact.data = contact.data

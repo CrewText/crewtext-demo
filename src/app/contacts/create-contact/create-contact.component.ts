@@ -17,12 +17,12 @@ export class CreateContactComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.volubleSvc.getServicechains(this.authSvc.userOrg)
+    this.volubleSvc.servicechains.getServicechains(this.authSvc.userOrg)
       .subscribe(resp => {
         this.servicechains = resp['data']
       })
 
-    this.volubleSvc.getCategories(this.authSvc.userOrg)
+    this.volubleSvc.categories.getCategories(this.authSvc.userOrg)
       .subscribe(resp => {
         this.categories = resp['data']
       })
@@ -89,7 +89,7 @@ export class CreateContactComponent implements OnInit {
         ['title', 'first-name', 'last-name', 'phone-number-code', 'phone-number-afterext', 'email-address',
           'category', 'servicechain'])
 
-      this.volubleSvc.createContact(this.authSvc.userOrg, vals['title'], vals['first-name'],
+      this.volubleSvc.contacts.createContact(this.authSvc.userOrg, vals['title'], vals['first-name'],
         vals['last-name'], `+${vals['phone-number-code']}${vals['phone-number-afterext']}`,
         vals['email-address'], vals['servicechain'] || null,
         vals['category'] || null)

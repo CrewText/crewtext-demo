@@ -24,7 +24,9 @@ export class AuthRedirectComponent implements OnInit {
       else if (key == "id_token") { this.authSvc.id_token = JSON.parse(Base64.decode(val.split('.')[1])) }
     }
 
-    this.volubleSvc.getUserSelf(this.authSvc.access_token.sub)
+    console.log("got tokens, getting users data")
+
+    this.volubleSvc.users.getUserSelf(this.authSvc.access_token.sub)
       .then(resp => {
         return resp.json()
           .then(resp_body => {

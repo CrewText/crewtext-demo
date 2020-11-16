@@ -7,7 +7,9 @@
     "build": "ng build --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "preinstall": "chmod +x ./.ci/heroku-preinstall.sh; bash ./.ci/heroku-preinstall.sh",
+    "postinstall": "chmod +x ./.ci/heroku-postinstall.sh; bash ./.ci/heroku-postinstall.sh; tsc -v ; tsc"
   },
   "browser": {
     "crypto": true

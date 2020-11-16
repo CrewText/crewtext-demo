@@ -28,7 +28,7 @@
         </div>
     </div>
     <button class="ui primary button"
-        (click)="sendMessage()">{{reply_to_message ? "Send Reply" : "Send Message"}}</button>
+        (click)="sendMessage($event)">{{reply_to_message ? "Send Reply" : "Send Message"}}</button>
 </form>
 
 <div class="ui dimmer" id="sendingDimmer">

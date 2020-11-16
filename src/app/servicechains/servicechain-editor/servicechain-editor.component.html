@@ -1,0 +1,39 @@
+<div class="ui main container">
+    <div class="ui vertical very padded segment">
+        <h1 class="ui header">Create New Servicechain</h1>
+    </div>
+    <div class="ui vertical padded segment">
+        <form class="ui form">
+            <div class="required field">
+                <label for="sc_name">Servicechain Name:</label>
+                <input type="text" name="sc_name" id="sc-name">
+            </div>
+            <div class="ui segment">
+                <div class="ui two column center aligned grid">
+                    <div class="ui vertical divider">DRAG AND DROP</div>
+                    <div class="top aligned row">
+                        <div class="column full-height">
+                            <div class="ui medium header">New Servicechain</div>
+                            <div class="ui relaxed divided ordered list full-height" id="new-svc-list"
+                                (dragover)="handleDragOver($event)" (drop)="handleDragEnd($event)">
+                            </div>
+                        </div>
+                        <div class="column full-height">
+                            <div class="ui medium header">Services Available</div>
+                            <div class="ui relaxed divided list full-height" id="existing-svcs-list"
+                                (dragover)="handleDragOver($event)" (drop)="handleDragEnd($event)">
+                                <div class=" item" draggable="true" id="{{svc.id}}"
+                                    (dragstart)="handleDragStart($event)" *ngFor="let svc of services">
+                                    {{svc.attributes.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+            <div class="ui primary button" (click)="sendForm()">Create Servicechain</div>
+        </form>
+    </div>
+</div>
