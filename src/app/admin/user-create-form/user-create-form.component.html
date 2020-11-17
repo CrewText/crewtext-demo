@@ -9,11 +9,11 @@
         </h3>
     </div>
     <div class="ui divider"></div>
-    <div class="ui required field">
+    <div class="required field">
         <label for="email-address">Email address</label>
         <input type="email" name="email-address" #emailInput id="emailInput">
     </div>
-    <div class="ui two fields">
+    <div class="two fields">
         <div class="ui required field">
             <label for="first-name">First Name</label>
             <input type="text" name="first-name" #firstName id="firstName">
@@ -23,18 +23,38 @@
             <input type="text" name="last-name" #lastName id="lastName">
         </div>
     </div>
-    <div class="ui field">
+    <div class="field" id="rolesField">
+        <div class="ui header small">
+            <div class="content">Available Roles:</div>
+        </div>
+        <div *ngFor="let role of availableRoles">
+            <input type="checkbox" [name]="role.id" [id]="role.id" class="role-checkbox">
+            <label [for]="role.id">{{role.name}}</label>
+        </div>
+    </div>
+    <div class="field">
         <div class="ui primary button" (click)="createUser()">Create User</div>
     </div>
+    <div class="ui dimmer" id="createUserListDimmer">
+        <div class="content">
+            <!-- <div class="ui list" id="createUserList"> -->
+            <div class="ui relaxed items">
+                <div class="item">
+                    <i class="notched circle loading icon" id="createUserIdentityMgrItem"></i> Creating user with
+                    identity
+                    manager
+                </div>
+                <div class="item">
+                    <i class="notched circle loading icon" id="sendPwdResetItem"></i> Sending password reset email
+                </div>
+                <div class="item">
+                    <i class="notched circle loading icon" id="addToOrgItem"></i> Adding to Organization
+                </div>
+                <div class="item">
+                    <i class="notched circle loading icon" id="setUserRoleItem"></i> Setting user permissions
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
 </form>
-<div class="ui list hide" id="createUserList">
-    <div class="item">
-        <i class="notched circle loading icon" id="createUserIdentityMgrItem"></i> Creating user with identity manager
-    </div>
-    <div class="item">
-        <i class="notched circle loading icon" id="sendPwdResetItem"></i> Sending password reset email
-    </div>
-    <div class="item">
-        <i class="notched circle loading icon" id="addToOrgItem"></i> Adding to Organization
-    </div>
-</div>

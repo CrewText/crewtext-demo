@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import md5 from 'md5';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { Auth0Service } from 'src/app/auth0.service';
 import { AuthService } from 'src/app/auth.service';
+import { Auth0Service } from 'src/app/auth0.service';
 import { VolubleService } from 'src/app/voluble.service';
-import { Router } from '@angular/router';
 
 let emailInput: HTMLInputElement;
 let avatarSrcInput: HTMLInputElement
@@ -17,9 +16,12 @@ let avatarSrcInput: HTMLInputElement
 })
 export class UserCreateFormComponent implements OnInit {
 
-  constructor(private auth0Svc: Auth0Service, private authSvc: AuthService, private volubleSvc: VolubleService, private router: Router) { }
+  constructor(private auth0Svc: Auth0Service, private authSvc: AuthService, private volubleSvc: VolubleService) { }
+  availableRoles: { id: string, name: string, description: string }[]
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    this.availableRoles = await this.auth0Svc.getRoles(this.authSvc.jwt)
     //@ts-ignore
     $('#userCreateForm').form()
 
@@ -70,39 +72,56 @@ export class UserCreateFormComponent implements OnInit {
 
   resetForm() {
     //@ts-ignore
+    $("#createUserListDimmer").dimmer("hide")
+    //@ts-ignore
     $('#userCreateForm').form('reset')
+    //@ts-ignore
+    $(".ui.checkbox").checkbox()
+
     avatarSrcInput.value = "https://www.gravatar.com/avatar/0?d=mp"
-    document.getElementById('createUserList').classList.add('hide')
+    //document.getElementById('createUserList').classList.add('hide')
+
 
     document.getElementById("createUserIdentityMgrItem").className = "notched circle loading icon"
     document.getElementById("sendPwdResetItem").className = "notched circle loading icon"
     document.getElementById("addToOrgItem").className = "notched circle loading icon"
+    document.getElementById("setUserRoleItem").className = "notched circle loading icon"
   }
 
-  createUser() {
+  async createUser() {
     //@ts-ignore
     let formVals = $('#userCreateForm').form('get values')
-    document.getElementById('createUserList').classList.remove('hide')
-    this.auth0Svc.createUser(this.authSvc.userOrg,
+
+    //@ts-ignore
+    $("#createUserListDimmer").dimmer("show")
+    let createdUser = await this.auth0Svc.createUser(this.authSvc.userOrg,
       formVals["first-name"],
       formVals["last-name"],
       formVals['avatar'],
       formVals['email-address'],
       this.authSvc.jwt)
-      .then(resp => {
+      .then(async resp => {
         document.getElementById("createUserIdentityMgrItem").className = "green check icon"
-        Promise.all([
-          this.authSvc.sendPasswordReset(resp["email"], this.authSvc.access_token).then(() => document.getElementById("sendPwdResetItem").className = "green check icon").catch(() => document.getElementById("sendPwdResetItem").className = "red times icon"),
-          this.volubleSvc.users.createUser(this.authSvc.userOrg, resp.user_id).then(() => document.getElementById("addToOrgItem").className = "green check icon").catch(() => document.getElementById("addToOrgItem").className = "red times icon")
-          //TODO: #1 Assign user permissions
-
-        ])
-          .then(() => {
-            window.location.reload()
-          })
+        return resp
       })
-      //TODO: Add error checking
       .catch(() => { document.getElementById("createUserIdentityMgrItem").className = "red times icon" })
+
+    await Promise.all([
+      this.authSvc.sendPasswordReset(createdUser["email"], this.authSvc.access_token).then(() => document.getElementById("sendPwdResetItem").className = "green check icon").catch(() => document.getElementById("sendPwdResetItem").className = "red times icon"),
+      this.volubleSvc.users.createUser(this.authSvc.userOrg, createdUser.user_id).then(() => document.getElementById("addToOrgItem").className = "green check icon").catch(() => document.getElementById("addToOrgItem").className = "red times icon")
+    ]);
+
+    const userRoles = Array.from(document.getElementsByClassName("role-checkbox") as HTMLCollectionOf<HTMLInputElement>)
+      .filter(el => el.checked)
+      .map(el => el.id)
+
+    await this.auth0Svc.setUserRoles(this.authSvc.userOrg, createdUser.user_id, userRoles, this.authSvc.jwt)
+      .then(_ => document.getElementById("setUserRoleItem").className = "green check icon")
+      .catch(e => { document.getElementById("setUserRoleItem").className = "red times icon"; console.error(e) })
+
+    //TODO: Add error checking
+
+    window.location.reload();
 
   }
 }

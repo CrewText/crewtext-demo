@@ -74,4 +74,31 @@ export class Auth0Service {
         return json
       })
   }
+
+  getRoles(auth_token: string) {
+    return fetch(`${environment.auth0_proxy_base}/auth0/roles`,
+      {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${auth_token}` }
+      })
+      .then(async resp => {
+        let json = await resp.json()
+        if (!resp.ok) { throw new Error((json).errors[0].detail) }
+        return json
+      })
+  }
+
+  setUserRoles(org_id: string, user_id: string, role_ids: string[], auth_token: string) {
+    return fetch(`${environment.auth0_proxy_base}/auth0/users/${org_id}/${user_id}/setroles`,
+      {
+        method: "POST",
+        headers: { 'Authorization': `Bearer ${auth_token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ roles: role_ids })
+      })
+      .then(async resp => {
+        if (resp.status == 204) { return } // This is the code for a successful return, for some reason
+        let json = await resp.json()
+        if (!resp.ok) { throw new Error((json).errors[0].detail) }
+      })
+  }
 }
