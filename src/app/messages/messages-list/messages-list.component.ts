@@ -1,4 +1,3 @@
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
 import { Auth0Service } from 'src/app/auth0.service';
@@ -32,14 +31,17 @@ export class MessagesListComponent implements OnInit {
       this.messages = await this.volubleSvc.messages.getMessages(this.authSvc.userOrg, this.direction)
         .then(resp => {
           if (!(resp.data instanceof Array)) { resp.data = [resp.data] }
-          return Promise.all(resp.data.map((val, _idx, _arr) => {
-            return Promise.all([this.volubleSvc.contacts.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
-            val.relationships.user?.data?.id ? this.auth0Svc.getUser(this.authSvc.userOrg, val.relationships.user.data.id, this.authSvc.jwt) : void 0])
+          return Promise.all(resp.data.map((msgJAPIObj, _idx, _arr) => {
+            return Promise.all(
+              [this.volubleSvc.contacts.getContact(this.authSvc.userOrg, msgJAPIObj.relationships.contact.data.id),
+              msgJAPIObj.relationships.user?.data?.id ? this.auth0Svc.getUser(this.authSvc.userOrg, msgJAPIObj.relationships.user.data.id, this.authSvc.jwt) : void 0])
               .then(([contact, user]) => {
-                val.relationships.contact.data = contact.data
-                if (!user.name && user.given_name && user.family_name) { user.name = `${user.given_name} ${user.family_name}` }
-                val.relationships.user.data['attributes'] = user
-                return val
+                msgJAPIObj.relationships.contact.data = contact.data
+                if (user) {
+                  if (!user?.name && user?.given_name && user?.family_name) { user.name = `${user.given_name} ${user.family_name}` }
+                  msgJAPIObj.relationships.user.data['attributes'] = user
+                }
+                return msgJAPIObj
               })
               .catch(e => e)
           }))
@@ -68,14 +70,16 @@ export class MessagesListComponent implements OnInit {
               .then(() => { repliesToProcess.splice(0, 1); })
           }
 
-          return Promise.all(messages.map((val, _idx, _arr) => {
-            return Promise.all([this.volubleSvc.contacts.getContact(this.authSvc.userOrg, val.relationships.contact.data.id),
-            val.relationships.user.data.id ? this.auth0Svc.getUser(this.authSvc.userOrg, val.relationships.user.data.id, this.authSvc.jwt) : void 0])
+          return Promise.all(messages.map((msgJAPIObj, _idx, _arr) => {
+            return Promise.all([this.volubleSvc.contacts.getContact(this.authSvc.userOrg, msgJAPIObj.relationships.contact.data.id),
+            msgJAPIObj.relationships.user?.data?.id ? this.auth0Svc.getUser(this.authSvc.userOrg, msgJAPIObj.relationships.user.data.id, this.authSvc.jwt) : void 0])
               .then(([contact, user]) => {
-                val.relationships.contact.data = contact.data
-                if (!user.name && user.given_name && user.family_name) { user.name = `${user.given_name} ${user.family_name}` }
-                val.relationships.user.data['attributes'] = user
-                return val
+                msgJAPIObj.relationships.contact.data = contact.data
+                if (user) {
+                  if (!user.name && user.given_name && user.family_name) { user.name = `${user.given_name} ${user.family_name}` }
+                  msgJAPIObj.relationships.user.data['attributes'] = user
+                }
+                return msgJAPIObj
               })
               .catch(e => e)
           }))
