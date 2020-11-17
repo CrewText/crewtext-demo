@@ -75,6 +75,22 @@ export class Auth0Service {
       })
   }
 
+  deleteUser(org_id: string, user_id: string, auth_token: string) {
+    return fetch(`${environment.auth0_proxy_base}/auth0/users/${org_id}/${user_id}`,
+      {
+        method: "DELETE",
+        headers: { 'Authorization': `Bearer ${auth_token}`, "Content-Type": "application/json" },
+      })
+      .then(async resp => {
+        if (resp.status == 204) { return }
+        let json = await resp.json()
+        if (!resp.ok) { throw new Error((json).errors[0].detail) }
+        return json
+      })
+
+  }
+
+
   getRoles(auth_token: string) {
     return fetch(`${environment.auth0_proxy_base}/auth0/roles`,
       {

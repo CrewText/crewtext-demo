@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users" [routerLink]="['/routePath']">
+                <tr *ngFor="let user of users">
                     <td>
                         <h4 class="ui image header">
                             <img class="ui image avatar" src="{{ user.picture }}" />
@@ -37,11 +37,25 @@
                         </h4>
                     </td>
                     <td>{{ user.email }}</td>
-                    <td class="collapsing"><button class="ui icon circular button inverted">
+                    <td class="collapsing"><button class="ui icon circular button inverted"
+                            (click)="deleteUser(user.user_id)">
                             <i class="trash icon red"></i>
                         </button></td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="ui basic modal" id="deleteModal">
+        <div class="ui icon header"><i class="icon trash"></i>Delete User</div>
+        <div class="content">
+            <p>
+                Are you sure you want to delete <strong>{{userDeletePromptName}}</strong>?
+            </p>
+        </div>
+        <div class="actions">
+            <div class="ui red inverted approve button">Delete</div>
+            <div class="ui inverted cancel button">Cancel</div>
+        </div>
     </div>
 </div>

@@ -3,4 +3,5 @@ export interface BasicUser {
     given_name?: string
     family_name?: string
     name?: string
+    user_id: string
 }

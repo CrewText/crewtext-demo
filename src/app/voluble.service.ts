@@ -246,6 +246,19 @@ export class VolubleService {
       });
       if (!resp.ok) { throw new Error((await resp.json()).errors[0].detail); }
       return resp.json();
+    },
+
+    deleteUser: async (organization_id: string, user_id: string): Promise<void> => {
+      let url = `${environment.voluble.api_base}/orgs/${organization_id}/users/${user_id}`
+      const resp = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${this.authSvc.jwt}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!resp.ok) { throw new Error((await resp.json()).errors[0].detail); }
+      return
     }
   }
 
